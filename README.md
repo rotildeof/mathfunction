@@ -21,7 +21,7 @@ double incomp_beta(double x, double a, double b);
 正則化不完全ベータ関数I_x(a, b)の値を返す。実装は BOOSTの不完全ガンマ関数のページ   https://www.boost.org/doc/libs/1_50_0/libs/math/doc/sf_and_dist/html/math_toolkit/special/sf_beta/ibeta_function.html  
 およびページ先の参考論文および下記URL  
 https://www.seijo.ac.jp/pdf/faeco/kenkyu/118/118-sekimoto.pdf   
-を参考にした。
+を参考にした。(この連分数の導出法知ってる人いたらどなたか教えて欲しい・・・。)
 ```c++
 double beta(double a, double b)
 ```
@@ -56,7 +56,7 @@ double binomial_pdf(unsigned int n, unsigned int k, double p);
 double binomial_cdf(unsigned int n, unsigned int k, double p);
 ```
 二項分布の累積和を返す。ある確率pの事象Aをn回試した時、k回以下Aが起こる確率を表す。例えば同様に確からしいコインを100回投げて50回以下表が出る確率、など。
-
+(実装は実直に足すのではなく、不完全ベータ関数で算出している。)
 ```c++
 double normal_pdf(double x, double mu = 0, double sigma = 1);
 ```
