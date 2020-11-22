@@ -55,7 +55,7 @@ double binomial_pdf(unsigned int n, unsigned int k, double p);
 ```c++
 double binomial_cdf(unsigned int n, unsigned int k, double p);
 ```
-二項分布の累積和を返す。ある確率pの事象Aをn回試した時、k回以下のAが起こる確率を表す。例えば同様に確からしいコインを100回投げて50回以下表が出る確率、など。
+二項分布の累積和を返す。ある確率pの事象Aをn回試した時、k回以下Aが起こる確率を表す。例えば同様に確からしいコインを100回投げて50回以下表が出る確率、など。
 
 ```c++
 double normal_pdf(double x, double mu = 0, double sigma = 1);
