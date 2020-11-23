@@ -8,6 +8,7 @@
 #include <limits>
 #include <iostream>
 #include <utility>
+#include <functional>
 
 namespace mathconstant{
   const double pi = 3.14159265358979323;
@@ -17,7 +18,8 @@ namespace mathconstant{
 
 namespace mathfunc{
   double power(double x, int N);
-  
+  double differential(std::function<double(double)> func, double x, double h = 0.001);
+  double differential2(std::function<double(double)> func, double x, double h = 0.001);
   double lower_incomp_gamma(double a, double x);
   double normalized_lower_incomp_gamma(double a, double x);
   double incomp_beta(double x, double a, double b);
@@ -31,6 +33,7 @@ namespace mathfunc{
   double binomial_cdf(unsigned int n, unsigned int k, double p);
   double normal_pdf(double x, double mu = 0, double sigma = 1);
   double normal_cdf(double x, double mu = 0, double sigma = 1);
+
 };
 
 double mathfunc::power(double x, int N){
@@ -39,6 +42,14 @@ double mathfunc::power(double x, int N){
     result *= x;
   }
   return result;
+}
+
+double mathfunc::differential(std::function<double(double)> func, double x, double h){
+  return (func( x -  2 * h ) - 8 * func(x - h) + 8 * func(x + h) - func(x + 2 * h) ) / (12 * h);
+}
+
+double mathfunc::differential2(std::function<double(double)> func, double x, double h){
+  return ( func(x - h) - 2 * func(x) + func(x + h) ) / mathfunc::power(h, 2);
 }
 
 double mathfunc::chisquared_pdf(double x, double deg){
@@ -213,5 +224,6 @@ double mathfunc::incomp_beta(double x, double a, double b){
   }
   
 }
+
 
 #endif
