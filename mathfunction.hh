@@ -1,40 +1,5 @@
-#ifndef _mathfunction_
-#define _mathfunction_
+#include "mathfunction.hh"
 
-// --> This libraty provide mathematic function which are not
-// --> included in the standard library <cmath>
-
-#include <cmath>
-#include <limits>
-#include <iostream>
-#include <utility>
-#include <functional>
-
-namespace mathconstant{
-  const double pi = 3.14159265358979323;
-  const double sqrt2 = std::sqrt(2);
-  const double sqrt2pi = std::sqrt( 2 * pi );
-}
-
-namespace mathfunc{
-  double power(double x, int N);
-  double differential(std::function<double(double)> func, double x, double h = 0.001);
-  double differential2(std::function<double(double)> func, double x, double h = 0.001);
-  double lower_incomp_gamma(double a, double x);
-  double normalized_lower_incomp_gamma(double a, double x);
-  double incomp_beta(double x, double a, double b);
-  double beta(double a, double b);
-
-  double chisquared_pdf(double x, double deg);
-  double chisquared_cdf(double x, double deg);
-  double poisson_pdf(unsigned int k, double lambda);
-  double chisquared_lower_limit(double alpha, double deg, double init = 0);
-  double binomial_pdf(unsigned int n, unsigned int k, double p);
-  double binomial_cdf(unsigned int n, unsigned int k, double p);
-  double normal_pdf(double x, double mu = 0, double sigma = 1);
-  double normal_cdf(double x, double mu = 0, double sigma = 1);
-
-};
 
 double mathfunc::power(double x, int N){
   double result = 1;
@@ -49,7 +14,85 @@ double mathfunc::differential(std::function<double(double)> func, double x, doub
 }
 
 double mathfunc::differential2(std::function<double(double)> func, double x, double h){
-  return ( func(x - h) - 2 * func(x) + func(x + h) ) / mathfunc::power(h, 2);
+  // return ( func(x - h) - 2 * func(x) + func(x + h) ) / mathfunc::power(h, 2);
+  return (16 * (func(x + h) + func(x - h)) - (func(x + 2 * h) + func(x - 2 * h)) - 30 * func(x)) / (12 * h * h);
+}
+
+double mathfunc::newton_method(std::function<double(double)> func, double init, double epsilon){
+  double x_old = init;
+  int count = 0;
+  while(1){
+    double y_now = func(x_old);
+    double y_dif = mathfunc::differential(func, x_old);
+    double x_new = x_old - y_now / y_dif;
+    if( std::fabs(x_new - x_old) < epsilon ){
+      return x_new;
+    }else{
+      // std::cout << x_new << " "  << x_old << " " << x_new / x_old << " " << std::fabs(1 - x_new / x_old ) << std::endl;
+      x_old = x_new;
+
+    }
+    ++count;
+    if(count > 100) break;
+  }// while
+  return std::numeric_limits<double>::quiet_NaN();
+}
+
+double mathfunc::find_extremum_x(std::function<double(double)> func, double init, double epsilon){
+  double x_old = init;
+  int count = 0;
+  while(1){
+    double y_now = mathfunc::differential (func, x_old);
+    double y_dif = mathfunc::differential2(func, x_old);
+    double x_new = x_old - y_now / y_dif;
+    if( std::fabs(x_new - x_old) < epsilon ){
+      return x_new;
+    }else{
+      // std::cout << x_new << " "  << x_old << " " << x_new / x_old << " " << std::fabs(1 - x_new / x_old ) << std::endl;
+      x_old = x_new;
+    }
+    ++count;
+    if(count > 100) break;
+  }// while
+  return std::numeric_limits<double>::quiet_NaN();
+}
+
+int64_t mathfunc::gcd(int64_t a, int64_t b){
+  if(a < b) return gcd(b, a);
+  while(b != 0){
+    long int R = a % b;
+    a = b; b = R;
+  }
+  return a;
+}
+
+int64_t mathfunc::lcm(int64_t a, int64_t b){
+  int64_t gcd = mathfunc::gcd(a, b);
+  return ( a / gcd ) *  b;
+}
+
+double mathfunc::error_propagation(std::function<double(double*)> func, double *x, double *x_e, const int num_arg, double h){
+
+  std::vector<double> dif;
+  dif.reserve(num_arg);
+  for(int i = 0 ; i < num_arg ; ++i){
+    x[i] += h;
+    double dif_1p = func(x);
+    x[i] += h;
+    double dif_2p = func(x);
+    x[i] -= 3 * h;
+    double dif_1n = func(x);
+    x[i] -= h;
+    double dif_2n = func(x);
+    x[i] += 2 * h;
+    dif.push_back( (dif_2n - 8 * dif_1n + 8 * dif_1p - dif_2p) / (12 * h) );
+  }
+  double result = 0;
+  for(int i = 0 ; i < num_arg ; ++i){
+    result += mathfunc::power(dif[i] * x_e[i], 2);
+    std::cout << dif[i] << std::endl;
+  }
+  return std::sqrt(result);
 }
 
 double mathfunc::chisquared_pdf(double x, double deg){
@@ -225,5 +268,12 @@ double mathfunc::incomp_beta(double x, double a, double b){
   
 }
 
+double mathfunc::geometric_pdf(int k, double p){
+  if(k < 1) return 0;
+  return std::pow(1 - p, k - 1) * p;
+}
 
-#endif
+double mathfunc::geometric_cdf(int k, double p){
+  if(k < 1) return 0;
+  return 1 - std::pow(1 - p , k);
+}
