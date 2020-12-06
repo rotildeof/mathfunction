@@ -79,7 +79,7 @@ std::cout << result << std::endl;
 ```c++
 double find_extremum_x(std::function<double(double)> func, double init, double epsilon = 1e-12);
 ```
-関数 y=f(x)の極値をとるxの近似値を求める。initの近くの極小値または極大値を求める。initによっては収束しない。
+関数 y=f(x)が極値をとるxの近似値を求める。initの近くの極小値または極大値を求める。initによっては収束しない。
 
 ```c++
 // 例
@@ -92,18 +92,32 @@ std::cout << result << std::endl;
 
 ```
 
+---
+```c++
+int64_t gcd(int64_t a, int64_t b);
+int64_t lcm(int64_t a, int64_t b);
+```
+
+(gcd) : 整数 a, b の最大公約数を求める。
+(lcm) : 整数 a, b の最大公倍数を求める。
 
 特殊関数
 -
+
+---
 ```c++
 double lower_incomp_gamma(double a, double x);
 ```
 
 第1種不完全ガンマ関数γ(a, x)を算出する。実装は https://en.wikipedia.org/wiki/Incomplete_gamma_function にある冪級数展開の式を使用した。(故に速度が遅い)
+
+---
 ```c++
 double normalized_lower_incomp_gamma(double a, double x);
 ```
 第1種不完全ガンマ関数をΓ(a)で正規化した値を返す。
+
+---
 ```c++
 double incomp_beta(double x, double a, double b);
 ```
@@ -111,6 +125,8 @@ double incomp_beta(double x, double a, double b);
 およびページ先の参考論文および下記URL  
 https://www.seijo.ac.jp/pdf/faeco/kenkyu/118/118-sekimoto.pdf   
 を参考にした。(この連分数の導出法知ってる人いたらどなたか教えて欲しい・・・。)
+
+---
 ```c++
 double beta(double a, double b)
 ```
@@ -118,40 +134,68 @@ double beta(double a, double b)
 
 統計学で使う関数
 -
+
+---
 ```c++
 double chisquared_pdf(double x, double deg);
 ```
 自由度degのカイ二乗分布の確率密度関数のxにおける値を返す。
 
+---
 ```c++
 double chisquared_cdf(double x, double deg);
 ```
 自由度degのカイ二乗分布の累積分布関数 F(x;deg)を算出する。  
+
+---
 ```c++
 double chisquared_lower_limit(double alpha, double deg, double init = 0);
 ```
 カイ二乗分布の下側確率(下側α点)を計算する。極端な値だと収束しない可能性があるけど大まかには収束する。
 initは探索の初期値でこれを変えると収束しやすくなるかもしれないが特に変える必要はない。  
+
+---
+```c++
+double geometric_pdf(int k, double p);
+```
+確率pのベルヌーイ試行を繰り返した時、X=kで初めて成功する確率を求める(Xが従う分布を幾何分布という)。例えば、サイコロを振ってk=5回目に初めて6の目が出る確率、など。
+
+---
+```c++
+double geometric_cdf(int k, double p);
+```
+幾何分布の累積分布関数を求める。
+
+---
 ```c++
 double poisson_pdf(unsigned int k, double lambda);
 ```
 平均 lambda のポアソン分布のX=kにおける確率を返す。ポアソン分布は、ある一定時間内に平均してlambda回起こる事象Aがあったとき、Aが実際に起きる回数が従う分布である。 
 これは起こる確率が低い事象に対してよく当てはまり、例えばある交差点での1日の事故件数などがそれにあたる。  
+
+---
 ```c++
 double binomial_pdf(unsigned int n, unsigned int k, double p);
 ```
 ある確率pの事象をn回試行したとき、k回起こる確率(いわゆる二項分布)を返す。表裏が確率0.5で出るコインを10回投げた時、表が5回出る確率、など。
 
+---
 ```c++
 double binomial_cdf(unsigned int n, unsigned int k, double p);
 ```
 二項分布の累積和を返す。ある確率pの事象Aをn回試した時、k回以下Aが起こる確率を表す。例えば同様に確からしいコインを100回投げて50回以下表が出る確率、など。
 (実装は実直に足すのではなく、不完全ベータ関数で算出している。)
+
+---
 ```c++
 double normal_pdf(double x, double mu = 0, double sigma = 1);
 ```
 平均mu, 標準偏差sigmaにおける正規分布の確率密度関数 f(x) を返す。
+
+---
 ```c++
 double normal_cdf(double x, double mu = 0, double sigma = 1);
 ```
 平均mu, 標準偏差sigmaにおける正規分布の累積分布関数 F(x) を返す。
+
+---
