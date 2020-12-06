@@ -2,8 +2,8 @@
 C++で&lt;cmath>ヘッダファイルで定義されていないような数学関数を入れていきたい。速度は関数によっては他の外部ライブラリで提供されているものに比べて劣るとは思うけど少しテストしたい時とかに使えるかも。一番はプロが作ったライブラリを使うこと。
 名前空間はmathfunc。
 
-
-・関数リスト  
+数値計算用関数
+- 
 
 ```c++
 double power(double x, int N);
@@ -20,6 +20,10 @@ double differential2(std::function<double(double)> func, double x, double h = 0.
 ```c++
 double lower_incomp_gamma(double a, double x);
 ```
+
+特殊関数
+-
+
 第1種不完全ガンマ関数γ(a, x)を算出する。実装は https://en.wikipedia.org/wiki/Incomplete_gamma_function にある冪級数展開の式を使用した。(故に速度が遅い)
 ```c++
 double normalized_lower_incomp_gamma(double a, double x);
@@ -37,7 +41,8 @@ double beta(double a, double b)
 ```
 ベータ関数B(a, b)の値を返す。C++17から実装されているが、コンパイラが対応していなかったので泣く泣く実装。
 
-・以下は統計学でよく用いられる確率関数などを実装した。  
+統計学で使う関数
+-
 ```c++
 double chisquared_pdf(double x, double deg);
 ```
