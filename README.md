@@ -8,24 +8,25 @@ C++で&lt;cmath>ヘッダファイルで定義されていないような数学�
 ```c++
 double power(double x, int N);
 ```
----
 標準で、std::pow()があるが指数が比較的小さな整数の時は直接N回掛けた方が速いのかなと思い導入。
+
+---
 ```c++
 double differential(std::function<double(double)> func, double x, double h = 0.001);
 ```
----
 連続関数f(x)のxにおける微分係数f'(x)を求める。hは刻み幅でデフォルトで0.001。この幅によっては精度が変わる。
+
+---
 ```c++
 double differential2(std::function<double(double)> func, double x, double h = 0.001);
 ```
----
 連続関数f(x)のxにおける二階微分f''(x)を求める。
-```c++
-double lower_incomp_gamma(double a, double x);
-```
 
 特殊関数
 -
+```c++
+double lower_incomp_gamma(double a, double x);
+```
 
 第1種不完全ガンマ関数γ(a, x)を算出する。実装は https://en.wikipedia.org/wiki/Incomplete_gamma_function にある冪級数展開の式を使用した。(故に速度が遅い)
 ```c++
