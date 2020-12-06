@@ -22,16 +22,36 @@ double differential2(std::function<double(double)> func, double x, double h = 0.
 (differencial2) : 連続関数f(x)のxにおける二階微分f''(x)を求める。
 
 ```c++
-  // 例
-  auto f = [](double x){return std::sin(x);}; // f(x) = sin(x)
-  double dif1 = mathfunc::differential(f, 0) // f'(0)
-  double dif2 = mathfunc::differential2(f, 0) // f''(0)
-  std::cout << dif1 << std::endl;
-  std::cout << dif2 << std::endl;
+// 例 (#includeなど適宜補完してください)
+auto f = [](double x){return std::sin(x);}; // f(x) = sin(x)
+double dif1 = mathfunc::differential(f, 0) // f'(0)
+double dif2 = mathfunc::differential2(f, 0) // f''(0)
+std::cout << dif1 << std::endl;
+std::cout << dif2 << std::endl;
   
-  // 出力
-  // 1.0000000
-  // 0.0000000
+// 出力
+// 1.0000000
+// 0.0000000
+```
+
+---
+
+```
+double error_propagation(std::function<double(double*)> func, double* x, double* x_e, const int num_arg, double h = 0.001);
+```
+
+誤差伝搬用の関数。例えばある測定値Xと測定値Yの(統計)誤差がそれぞれa, bのとき、Z=f(X, Y)としたときのZの(統計)誤差を求める。
+
+```
+// 例 z = (x + y) / 2 の場合
+auto f = [](double *x){return (x[0] + x[1]) / 2;} // z = (x + y) / 2;
+double x[2] = {2, 3}; // 測定値がx = 2, y = 3 だったとする
+double x_e[2] = {0.1, 0.1}; // x, yの測定誤差がそれぞれ 0.1, 0.1 だったとする。
+double result = mathfunc::error_propagation(f, x, x_e, 2); // 第3引数はZ = f(X, Y,...) の fの引数の数。今の場合は x と y の2つ。
+std::cout << result << std::endl; // z の(統計)誤差の結果を算出する。
+
+// 出力
+// 0.070710678
 ```
 
 特殊関数
