@@ -5,6 +5,7 @@ C++で&lt;cmath>ヘッダファイルで定義されていないような数学�
 数値計算用関数
 - 
 
+---
 ```c++
 double power(double x, int N);
 ```
@@ -62,7 +63,7 @@ std::cout << result << std::endl; // z の(統計)誤差の結果を算出する
 double newton_method(std::function<double(double)> func, double init, double epsilon = 1e-12);
 ```
 
-方程式 f(x)=0 の解をニュートン法を用いて求める。initで与える値によっては収束せず、解の近くの値を与える必要がある。
+方程式 f(x)=0 の近似解をニュートン法を用いて求める。initで与える値によっては収束せず、解の近くの値を与える必要がある。
 
 ```c++
 // 例
@@ -73,6 +74,24 @@ std::cout << result << std::endl;
 // 出力 : ルート2に近い値が得られる。
 // 1.4142136
 ```
+
+---
+```c++
+double find_extremum_x(std::function<double(double)> func, double init, double epsilon = 1e-12);
+```
+関数 y=f(x)の極値をとるxの近似値を求める。initの近くの極小値または極大値を求める。initによっては収束しない。
+
+```c++
+// 例
+auto f = [](double x){return std::sin(x);}; // f(x) = sin(x)
+double result = mathfunc::newton_method(f, 1) // 初期値 1 付近で sin(x) が極値をとるxを探索する。
+std::cout << result << std::endl;
+
+// 出力 : pi/2 に近い値が得られる。
+// 1.5707963
+
+```
+
 
 特殊関数
 -
