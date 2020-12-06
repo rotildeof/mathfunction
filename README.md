@@ -19,7 +19,7 @@ double differential(std::function<double(double)> func, double x, double h = 0.0
 ```c++
 double differential2(std::function<double(double)> func, double x, double h = 0.001);
 ```
-(differencial) : 連続関数f(x)のxにおける微分係数f'(x)を求める。hは刻み幅でデフォルトで0.001。この幅によっては精度が変わる。
+(differencial) : 連続関数f(x)のxにおける微分係数f'(x)を求める。hは刻み幅でデフォルトで0.001。この幅によっては精度が変わる。  
 (differencial2) : 連続関数f(x)のxにおける二階微分f''(x)を求める。
 
 ```c++
