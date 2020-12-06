@@ -4,7 +4,7 @@ C++で&lt;cmath>ヘッダファイルで定義されていないような数学�
 
 数値計算用関数
 - 
----
+
 ```c++
 double power(double x, int N);
 ```
@@ -14,13 +14,25 @@ double power(double x, int N);
 ```c++
 double differential(std::function<double(double)> func, double x, double h = 0.001);
 ```
-連続関数f(x)のxにおける微分係数f'(x)を求める。hは刻み幅でデフォルトで0.001。この幅によっては精度が変わる。
 
----
 ```c++
 double differential2(std::function<double(double)> func, double x, double h = 0.001);
 ```
-連続関数f(x)のxにおける二階微分f''(x)を求める。
+(differencial) : 連続関数f(x)のxにおける微分係数f'(x)を求める。hは刻み幅でデフォルトで0.001。この幅によっては精度が変わる。
+(differencial2) : 連続関数f(x)のxにおける二階微分f''(x)を求める。
+
+```c++
+  // 例
+  auto f = [](double x){return std::sin(x);}; // f(x) = sin(x)
+  double dif1 = mathfunc::differential(f, 0) // f'(0)
+  double dif2 = mathfunc::differential2(f, 0) // f''(0)
+  std::cout << dif1 << std::endl;
+  std::cout << dif2 << std::endl;
+  
+  // 出力
+  // 1.0000000
+  // 0.0000000
+```
 
 特殊関数
 -
