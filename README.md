@@ -54,6 +54,26 @@ std::cout << result << std::endl; // z の(統計)誤差の結果を算出する
 // 0.070710678
 ```
 
+数値計算アルゴリズム
+-
+
+---
+```c++
+double newton_method(std::function<double(double)> func, double init, double epsilon = 1e-12);
+```
+
+方程式 f(x)=0 の解をニュートン法を用いて求める。initで与える値によっては収束せず、解の近くの値を与える必要がある。
+
+```c++
+// 例
+auto f = [](double x){return x * x - 2;}; // f(x) = x^2 - 2 
+double result = mathfunc::newton_method(f, 1) // 初期値 1 で f(x) = 0 を解く。
+std::cout << result << std::endl;
+
+// 出力 : ルート2に近い値が得られる。
+// 1.4142136
+```
+
 特殊関数
 -
 ```c++
