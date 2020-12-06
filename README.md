@@ -19,8 +19,8 @@ double differential(std::function<double(double)> func, double x, double h = 0.0
 ```c++
 double differential2(std::function<double(double)> func, double x, double h = 0.001);
 ```
-(differencial) : 連続関数f(x)のxにおける微分係数f'(x)を求める。hは刻み幅でデフォルトで0.001。この幅によっては精度が変わる。  
-(differencial2) : 連続関数f(x)のxにおける二階微分f''(x)を求める。
+(differential) : 連続関数f(x)のxにおける微分係数f'(x)を求める。hは刻み幅でデフォルトで0.001。この幅によっては精度が変わる。  
+(differential2) : 連続関数f(x)のxにおける二階微分f''(x)を求める。
 
 ```c++
 // 例 (#includeなど適宜補完してください)
@@ -121,7 +121,7 @@ double normalized_lower_incomp_gamma(double a, double x);
 ```c++
 double incomp_beta(double x, double a, double b);
 ```
-正則化不完全ベータ関数I_x(a, b)の値を返す。実装は BOOSTの不完全ガンマ関数のページ   https://www.boost.org/doc/libs/1_50_0/libs/math/doc/sf_and_dist/html/math_toolkit/special/sf_beta/ibeta_function.html  
+正則化不完全ベータ関数I_x(a, b)の値を返す。実装は BOOSTの不完全ベータ関数のページ   https://www.boost.org/doc/libs/1_50_0/libs/math/doc/sf_and_dist/html/math_toolkit/special/sf_beta/ibeta_function.html  
 およびページ先の参考論文および下記URL  
 https://www.seijo.ac.jp/pdf/faeco/kenkyu/118/118-sekimoto.pdf   
 を参考にした。(この連分数の導出法知ってる人いたらどなたか教えて欲しい・・・。)
