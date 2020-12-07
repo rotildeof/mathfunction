@@ -41,14 +41,15 @@ std::cout << dif2 << std::endl;
 double error_propagation(std::function<double(double*)> func, double* x, double* x_e, const int num_arg, double h = 0.001);
 ```
 
-誤差伝搬用の関数。例えばある測定値Xと測定値Yの(統計)誤差がそれぞれa, bのとき、Z=f(X, Y)としたときのZの(統計)誤差を求める。
+誤差伝搬用の関数。ある測定値X1, X2, ...の(統計)誤差がそれぞれe1, e2,...のとき、Z=f(X1, X2,...)で表されるZの(統計)誤差を求める。
+測定する量がそれぞれ独立分布であるとみなせる時に使用できる。
 
 ```c++
 // 例 z = (x + y) / 2 の場合
 auto f = [](double *x){return (x[0] + x[1]) / 2;}; // z = (x + y) / 2;
 double x[2] = {2, 3}; // 測定値がx = 2, y = 3 だったとする
 double x_e[2] = {0.1, 0.1}; // x, yの測定誤差がそれぞれ 0.1, 0.1 だったとする。
-double result = mathfunc::error_propagation(f, x, x_e, 2); // 第3引数はZ = f(X, Y,...) の fの引数の数。今の場合は x と y の2つ。
+double result = mathfunc::error_propagation(f, x, x_e, 2); // 第3引数はz = f(x, y,...) の fの引数の数。今の場合は x と y の2つ。
 std::cout << result << std::endl; // z の(統計)誤差の結果を算出する。
 
 // 出力
