@@ -45,7 +45,7 @@ double error_propagation(std::function<double(double*)> func, double* x, double*
 
 ```c++
 // 例 z = (x + y) / 2 の場合
-auto f = [](double *x){return (x[0] + x[1]) / 2;} // z = (x + y) / 2;
+auto f = [](double *x){return (x[0] + x[1]) / 2;}; // z = (x + y) / 2;
 double x[2] = {2, 3}; // 測定値がx = 2, y = 3 だったとする
 double x_e[2] = {0.1, 0.1}; // x, yの測定誤差がそれぞれ 0.1, 0.1 だったとする。
 double result = mathfunc::error_propagation(f, x, x_e, 2); // 第3引数はZ = f(X, Y,...) の fの引数の数。今の場合は x と y の2つ。
@@ -54,6 +54,25 @@ std::cout << result << std::endl; // z の(統計)誤差の結果を算出する
 // 出力
 // 0.070710678
 ```
+
+---
+
+```c++
+double simpson_rule(std::function<double(double)> func, double a, double b, uint32_t division);
+```
+
+y=f(x)を[a,b]の範囲で数値積分する(手法はシンプソン則)。divisionは a から b までの分割数。
+
+```c++
+// 例
+auto f = [](double x){return x * x;};
+double result = mathfunc::simpson_rule(f, 0, 3, 100); // [0, 3]の範囲を100分割して積分する。
+std::cout << result << std::endl;
+
+// 出力
+// 9.0000000
+```
+
 
 数値計算アルゴリズム
 -
