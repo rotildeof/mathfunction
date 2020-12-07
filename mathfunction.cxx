@@ -47,6 +47,18 @@ double mathfunc::find_extremum_x(std::function<double(double)> func, double init
   return std::numeric_limits<double>::quiet_NaN();
 }
 
+double mathfunc::simpson_rule(std::function<double(double)> func, double a, double b, uint32_t division) {
+  if (division % 2 != 0) ++division;
+  double h = (b - a) / division;
+  double result = 0;
+  result += func(a) + func(b) + 4 * func(b - h);
+  for (auto i = 1; i <= division - 2; i += 2) {
+    result += 4 * func(a + i * h);
+    result += 2 * func(a + (i + 1) * h);
+  }
+  return result * h / 3;
+}
+
 int64_t mathfunc::gcd(int64_t a, int64_t b) {
   if (a < b) return gcd(b, a);
   while (b != 0) {
@@ -158,8 +170,7 @@ double mathfunc::lower_incomp_gamma(double a, double x) {
 double mathfunc::normalized_lower_incomp_gamma(double a, double x) {
   double term = 1;
   double series_sum = 0;
-  int k = 0;
-  while (1) {
+  for (int k = 0; k < 4095; ++k) {
     if (k == 0) {
       term *= 1. / a;
     } else {
@@ -168,13 +179,9 @@ double mathfunc::normalized_lower_incomp_gamma(double a, double x) {
     series_sum += term;
     if (series_sum >= std::numeric_limits<double>::infinity()) return 1.0;
     if (term < 1e-15) break;
-
-    k++;
-    if (k > 4095) break;
   }
   double log_result = a * std::log(x) - x - std::lgamma(a) + std::log(series_sum);
   return std::exp(log_result);
-
 }
 
 double mathfunc::chisquared_lower_limit(double alpha, double deg, double init) {
