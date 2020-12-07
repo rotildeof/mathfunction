@@ -27,6 +27,7 @@ namespace mathfunc {
  // ---- 数値計算アルゴリズム ---- //
   double newton_method(std::function<double(double)> func, double init, double epsilon = 1e-12);
   double find_extremum_x(std::function<double(double)> func, double init, double epsilon = 1e-12);
+  double simpson_rule(std::function<double(double)> func, double a, double b, uint32_t division);
   int64_t gcd(int64_t a, int64_t b);
   int64_t lcm(int64_t a, int64_t b);
   // ---- 特殊関数 ---- //
