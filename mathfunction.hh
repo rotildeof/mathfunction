@@ -24,10 +24,10 @@ namespace mathfunc {
   double differential(std::function<double(double)> func, double x, double h = 0.001);
   double differential2(std::function<double(double)> func, double x, double h = 0.001);
   double error_propagation(std::function<double(double*)> func, double* x, double* x_e, const int num_arg, double h = 0.001); // multi variable function
+  double simpson_rule(std::function<double(double)> func, double a, double b, uint32_t division);
  // ---- 数値計算アルゴリズム ---- //
   double newton_method(std::function<double(double)> func, double init, double epsilon = 1e-12);
   double find_extremum_x(std::function<double(double)> func, double init, double epsilon = 1e-12);
-  double simpson_rule(std::function<double(double)> func, double a, double b, uint32_t division);
   int64_t gcd(int64_t a, int64_t b);
   int64_t lcm(int64_t a, int64_t b);
   // ---- 特殊関数 ---- //
