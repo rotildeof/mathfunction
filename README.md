@@ -67,10 +67,13 @@ y=f(x)を[a,b]の範囲で数値積分する(手法はシンプソン則)。divi
 // 例
 auto f = [](double x){return x * x;};
 double result = mathfunc::simpson_rule(f, 0, 3, 100); // [0, 3]の範囲を100分割して積分する。
+double pi_approx = mathfunc::simpson_rule([](double x){return std::sqrt(1 - x * x);}, 0, 1, 10000); // y = √(1-x^2) を[0, 1]で積分する。
 std::cout << result << std::endl;
+std::cout << pi_approx * 4 << std::endl;
 
 // 出力
 // 9.0000000
+// 3.1415922
 ```
 
 
