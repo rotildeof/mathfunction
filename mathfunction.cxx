@@ -250,11 +250,24 @@ double mathfunc::incomp_beta(double x, double a, double b) {
     double term3 = (a + m) * (a - (a + b) * x + 1 + m * (2 - x)) / (a + 2 * m + 1);
     return term1 + term2 + term3;
   };
+
+#if __cplusplus >= 201402L
+  auto series = [=](double m = 1) {
+    auto f = [=](auto &self, double m) {
+      if (m == 20)
+        return beta_(20);
+      return alpha_(m) / (beta_(m) + self(self, m + 1));
+    };
+    return f(f, m);
+  };
+#else
   std::function<double(double)> series = [&](double m = 1) {
     if (m == 20) return beta_(20);
     double result = alpha_(m) / (beta_(m) + series(m + 1));
     return result;
   };
+#endif
+
   if (flip == false) {
     return std::pow(x, a) * std::pow(y, b) * series(1) / mathfunc::beta(a, b);
   } else {
