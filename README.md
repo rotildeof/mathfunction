@@ -130,7 +130,7 @@ int64_t lcm(int64_t a, int64_t b);
  double combination(double n, double r);
 ```
 
-(llcombination) : 組み合わせ nCr を計算し、結果をunsigned long longで返す。nとrが大きいとオーバーフローするので注意。
+(llcombination) : 組み合わせ nCr を計算し、結果をunsigned long longで返す。nとrが大きいとオーバーフローするので注意。  
 (combination) : 組み合わせ nCr を計算し、結果をdoubleで返す。llcombinationに比べオーバーフローの心配は減るが、精度は落ちる。
 
 ---
