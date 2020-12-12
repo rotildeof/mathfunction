@@ -124,6 +124,23 @@ int64_t lcm(int64_t a, int64_t b);
 (gcd) : 整数 a, b の最大公約数を求める。
 (lcm) : 整数 a, b の最大公倍数を求める。
 
+---
+```c++
+ uint64_t llcombination(double n, double r);
+ double combination(double n, double r);
+```
+
+(llcombination) : 組み合わせ nCr を計算し、結果をunsigned long longで返す。nとrが大きいとオーバーフローするので注意。
+(combination) : 組み合わせ nCr を計算し、結果をdoubleで返す。llcombinationに比べオーバーフローの心配は減るが、精度は落ちる。
+
+---
+
+```c++
+bool is_prime(uint64_t n);
+```
+
+与えられた整数が素数かどうか判定する。
+
 特殊関数
 -
 
