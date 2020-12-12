@@ -48,6 +48,7 @@ double mathfunc::find_extremum_x(std::function<double(double)> func, double init
 }
 
 double mathfunc::simpson_rule(std::function<double(double)> func, double a, double b, uint32_t division) {
+  if (division <= 0) return 0;
   if (division % 2 != 0) ++division;
   double h = (b - a) / division;
   double result = 0;
@@ -73,6 +74,17 @@ int64_t mathfunc::lcm(int64_t a, int64_t b) {
   return (a / gcd) * b;
 }
 
+bool mathfunc::is_prime(uint64_t n) {
+  if (n == 0 || n == 1) return false;
+  if (n == 2 || n == 3) return true;
+  if (n % 2 == 0 || n % 3 == 0) return false;
+  for (uint64_t i = 5; i * i < n; i += 6) {
+    if (n % i == 0) return false;
+    if (n % (i + 2) == 0) return false;
+  }
+  return true;
+}
+
 double mathfunc::error_propagation(std::function<double(double*)> func, double* x, double* x_e, const int num_arg, double h) {
   std::vector<double> dif;
   dif.reserve(num_arg);
@@ -93,6 +105,15 @@ double mathfunc::error_propagation(std::function<double(double*)> func, double* 
     result += mathfunc::power(dif[i] * x_e[i], 2);
   }
   return std::sqrt(result);
+}
+
+double mathfunc::combination(double n, double r) {
+  double ln_result = std::lgamma(n + 1) - std::lgamma(r + 1) - std::lgamma(n - r + 1);
+  return std::exp(ln_result);
+}
+
+uint64_t mathfunc::llcombination(double n, double r) {
+  return std::llround(mathfunc::combination(n, r));
 }
 
 double mathfunc::chisquared_pdf(double x, double deg) {
@@ -253,7 +274,7 @@ double mathfunc::incomp_beta(double x, double a, double b) {
 
 #if __cplusplus >= 201402L
   auto series = [=](double m = 1) {
-    auto f = [=](auto &self, double m) {
+    auto f = [=](auto& self, double m) {
       if (m == 20)
         return beta_(20);
       return alpha_(m) / (beta_(m) + self(self, m + 1));
