@@ -11,6 +11,7 @@
 #include <utility>
 #include <functional>
 #include <vector>
+#include <bitset>
 
 namespace mathconstant {
   const double pi = 3.14159265358979323;
@@ -33,6 +34,8 @@ namespace mathfunc {
   uint64_t llcombination(double n, double r);
   double combination(double n, double r);
   bool is_prime(uint64_t n);
+  template <size_t SIEVE_SIZE>
+  bool is_prime_soe(uint64_t n);
   // ---- 特殊関数 ---- //
   double lower_incomp_gamma(double a, double x);
   double normalized_lower_incomp_gamma(double a, double x);
@@ -49,6 +52,45 @@ namespace mathfunc {
   double normal_cdf(double x, double mu = 0, double sigma = 1);
   double geometric_pdf(int k, double p);
   double geometric_cdf(int k, double p);
+
+  /**
+   * @brief エラトステネスの篩により与えられた整数が素数かどうか判定する
+   *
+   * エラトステネスの篩により与えられた整数が素数かどうか判定する。
+   * 篩のサイズより大きな整数は is_prime により判定する。
+   *
+   * @tparam SIEVE_SIZE 篩のサイズ
+   * @param n 素数かどうか判定する整数
+   *
+   * @return 与えられた整数が素数ならばtrue、素数でなければfalse
+   */
+  template <size_t SIEVE_SIZE>
+  bool is_prime_soe(uint64_t n)
+  {
+    static std::bitset<SIEVE_SIZE + 1> prime_sieve;
+    static bool first_call = true;
+
+    if (n > SIEVE_SIZE) {
+      return is_prime(n);
+    }
+
+    if (first_call) {
+      first_call = false;
+      for (size_t i = 2; i < prime_sieve.size(); ++i) {
+        prime_sieve[i] = true;
+      }
+
+      for (size_t i = 2; i * i <= SIEVE_SIZE; ++i) {
+        if (prime_sieve[i]) {
+          for (size_t j = i * 2; j <= SIEVE_SIZE; j += i) {
+            prime_sieve[j] = false;
+          }
+        }
+      }
+    }
+
+    return prime_sieve[n];
+  }
 };
 
 
