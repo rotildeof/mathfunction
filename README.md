@@ -142,7 +142,7 @@ template <size_t SIEVE_SIZE>
 bool is_prime_soe(uint64_t n);
 ```
 
-(is_prime) : 与えられた整数が素数かどうか判定する。素数ならばtrue, 合成数ならばfalseを返す。計算量は呼び出すごとに O(√N)。
+(is_prime) : 与えられた整数が素数かどうか判定する。素数ならばtrue, 合成数ならばfalseを返す。計算量は呼び出すごとに O(√N)。 
 (is_prime_soe) : `SIEVE_SIZE`より小さな全ての自然数をエラトステネスの篩によって素数と合成数に振り分ける。初回呼び出し時のみ計算量O(N log log N)。2回目以降は `SIEVE_SIZE >= n` ならばO(1)、`SIEVE_SIZE < n`ならば`is_prime`を使って判定するのでO(√N)。
 
 特殊関数
